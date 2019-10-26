@@ -1,0 +1,29 @@
+{
+  "name": "afterhours",
+  "version": "1.0.0",
+  "description": "The after hours squad",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/uws": "^11.149.1",
+    "bufferutil": "^4.0.1",
+    "discord.js": "github:discordjs/discord.js",
+    "erlpack": "github:discordapp/erlpack",
+    "ffmpeg": "0.0.4",
+    "ffmpeg-static": "^2.7.0",
+    "libsodium-wrappers": "^0.7.6",
+    "node-gyp": "^6.0.0",
+    "node-opus": "^0.3.3",
+    "nodemon": "^1.19.4",
+    "opusscript": "0.0.6",
+    "sodium": "^3.0.2",
+    "ytdl": "^0.13.1",
+    "ytdl-core-discord": "^1.0.3",
+    "zlib-sync": "^0.1.5",
+    "zucc": "^0.1.2"
+  }
+}
