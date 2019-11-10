@@ -1,4 +1,3 @@
-const file = require('./config.json')
 const ytdl = require('ytdl-core-discord')
 const Discord = require('discord.js')
 const client = new Discord.Client()
@@ -99,4 +98,4 @@ async function youtubeVideo(url, connection) {
     connection.play(await stream, { type: 'opus', highWaterMark: 1 });
 }
 
-client.login(process.env.BOT_TOKEN)
+client.login('NjM3MDYwMTA1ODI0NzYzOTI1.XbIxrw.aiXTf11pj-nDpibyMTBFbnhI-ig')
