@@ -7,14 +7,19 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`)
 })
 
-
-
 const commandInit = '!aft'
 
 const commands = {
-    "mcServer": commandInit + "mc server",
+    "mcServer": commandInit + " mc server",
     "leave": commandInit + " leave",
     "list": commandInit + " list",
+    "random": commandInit + " shuffle"
+}
+
+const memeSongs = {
+    "!aft running90s": "https://www.youtube.com/watch?v=dv13gl0a-FA",
+    "!aft running90s10hrs": "https://www.youtube.com/watch?v=YP2mhJyHuCs",
+    "!aft gas gas gas": "https://www.youtube.com/watch?v=4pJO4KMm_rU"
 }
 
 const music = {
@@ -30,12 +35,13 @@ client.on('message', async msg => {
         msg.reply('Hello there!')
     }
     if(msg.content in music) {
-        msg.reply("playing " +msg.content.split(" ")[1])
+        msg.reply("Playing " +msg.content.split(" ")[1])
         msg.channel.send('url: '+music[msg.content])
         playURL(music[msg.content], msg)
     }
 
-    if(msg.content === commands.mcServer) {
+    if(msg.content == commands.mcServer) {
+        console.log('yeet')
         msg.reply('Minecraft Server: ```142.4.206.183:25588```\nCurrently using Modpack: Roguelike Dungeons and Adventures\n\nTwitch Link: https://www.curseforge.com/minecraft/modpacks/roguelike-adventures-and-dungeons')
     }
 
@@ -53,6 +59,16 @@ client.on('message', async msg => {
         } else {
             msg.reply('Are you in a voice channel?')
         }
+    }
+    if(msg.content == commands.random) {
+        var randomProperty = function (obj) {
+            var keys = Object.keys(obj)
+            return obj[keys[keys.length * Math.random() << 0]];
+        };
+        msg.reply("playing random song from list")
+        const random = randomProperty(music)
+        msg.channel.send('url: '+random)
+        playURL(random,msg)
     }
 })
 
@@ -83,4 +99,4 @@ async function youtubeVideo(url, connection) {
     connection.play(await stream, { type: 'opus', highWaterMark: 1 });
 }
 
-client.login(file.discordBotId)
+client.login(process.env.BOT_TOKEN)
