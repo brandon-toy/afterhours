@@ -13,7 +13,7 @@ client.on('ready', () => {
 function getMusicList() {
   const keys = Object.keys(music);
   let list = '```';
-  for (let i = 0; i < songQueue.length; i += 1) {
+  for (let i = 0; i < keys.length; i += 1) {
     list = list.concat(`${i + 1}. `, keys[i], '\n');
   }
   list = list.concat('```');
