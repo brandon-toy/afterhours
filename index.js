@@ -1,6 +1,7 @@
 
 const ytdl = require('ytdl-core-discord');
 const Discord = require('discord.js');
+const config = require('./config.json');
 
 const client = new Discord.Client();
 
@@ -199,4 +200,6 @@ client.on('message', async (msg) => {
   }
 });
 
-client.login('NjQzMjU4NDQzNjYyMzYwNTc3.Xci3fQ.Jf-h0Pk-Ru0L9NeL5F3_RngaC3I');
+// client.login(config.discordBotId);
+
+client.login(process.env.BOT_TOKEN);
