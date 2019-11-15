@@ -1,7 +1,7 @@
 
 const ytdl = require('ytdl-core-discord');
 const Discord = require('discord.js');
-const config = require('./config.json');
+// const config = require('./config.json');
 
 const client = new Discord.Client();
 
@@ -90,6 +90,7 @@ const music = {
   jrpg: 'https://www.youtube.com/watch?v=ST7O766etus',
   tavern2: 'https://www.youtube.com/watch?v=fIuO3RpMvHg',
   octopath: 'https://www.youtube.com/watch?v=1-_OwGncF6c',
+  ff7: 'https://www.youtube.com/watch?v=9FmKdjRhoy4',
 };
 
 const fields = {
