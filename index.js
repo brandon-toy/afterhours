@@ -1,7 +1,8 @@
 
 const ytdl = require('ytdl-core-discord');
 const Discord = require('discord.js');
-// const config = require('./config.json');
+
+require('dotenv').config();
 
 const client = new Discord.Client();
 
@@ -12,6 +13,16 @@ client.on('ready', () => {
 
 function getMusicList() {
   const keys = Object.keys(music);
+  let list = '```';
+  for (let i = 0; i < keys.length; i += 1) {
+    list = list.concat(`${i + 1}. `, keys[i], '\n');
+  }
+  list = list.concat('```');
+  return list;
+}
+
+function getMemeList() {
+  const keys = Object.keys(memeSongs);
   let list = '```';
   for (let i = 0; i < keys.length; i += 1) {
     list = list.concat(`${i + 1}. `, keys[i], '\n');
@@ -36,7 +47,6 @@ async function youtubeVideo(url, connection) {
     format: 'mp3',
     highWaterMark: 1 << 25,
   };
-  console.log(url);
   const stream = ytdl(url, ytdlOptions);
   connection.play(await stream, { type: 'opus', highWaterMark: 1 })
     .on('speaking', (speaking) => {
@@ -61,11 +71,11 @@ async function joinVoiceChannelAndPlayURL(voiceChannelID) {
 const commandInit = '!aft';
 
 const commands = {
+  play: `${commandInit} play {song name}`,
   mcServer: `${commandInit} mc server`,
   leave: `${commandInit} leave`,
-  list: `${commandInit} list`,
+  list: `${commandInit} list songs`,
   random: `${commandInit} shuffle`,
-  upNext: `${commandInit} upNext`,
   add: `${commandInit} add`,
   viewQueue: `${commandInit} upnext`,
   skip: `${commandInit} skip`,
@@ -75,6 +85,7 @@ const memeSongs = {
   running90s: 'https://www.youtube.com/watch?v=dv13gl0a-FA',
   running90s10hrs: 'https://www.youtube.com/watch?v=YP2mhJyHuCs',
   'gas gas gas': 'https://www.youtube.com/watch?v=4pJO4KMm_rU',
+  'jesus is the one': 'https://www.youtube.com/watch?v=-pypV-JPU1k',
 };
 
 const music = {
@@ -108,7 +119,15 @@ client.on('message', async (msg) => {
     msg.reply('Hello there!');
   }
 
-  if (msg.content == commands.mcServer) {
+  if (msg.content == '!aft help') {
+    let commandStr = 'Here are the supported commands: \n';
+    for (commandKey in commands) {
+      commandStr = commandStr.concat(commands[commandKey], '\n');
+    }
+    msg.reply(commandStr);
+  }
+
+  if (msg.content === commands.mcServer) {
     msg.reply(fields.mcServer);
   }
 
@@ -130,7 +149,7 @@ client.on('message', async (msg) => {
   const songArray = msg.content.split(' ');
   const songText = songArray[songArray.length - 1];
 
-  if (songArray[0] === commandInit && songText in music && songArray.length === 2) {
+  if (songArray[0] === commandInit && (songText in music || songText in memeSongs) && songArray.length === 2) {
     msg.reply(`Playing Song: ${msg.content.split(' ')[1]}`);
     const songURL = music[songText];
     msg.channel.send(`url: ${songURL}`);
@@ -173,8 +192,9 @@ client.on('message', async (msg) => {
 
   if (msg.content == commands.list) {
     msg.channel.send("Here's a list of the music so far ");
-
-    msg.channel.send(getMusicList());
+    msg.channel.send(`Songs: \n${getMusicList()}`);
+    msg.channel.send('-----------------------\n');
+    msg.channel.send(`Other Songs: \n${getMemeList()}`);
   }
 
   if (msg.content == commands.random) {
@@ -200,7 +220,5 @@ client.on('message', async (msg) => {
     }
   }
 });
-
-// client.login(config.discordBotId);
 
 client.login(process.env.BOT_TOKEN);
