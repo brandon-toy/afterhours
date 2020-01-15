@@ -1,3 +1,6 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-undef */
+/* eslint-disable no-restricted-syntax */
 
 const ytdl = require('ytdl-core-discord');
 const Discord = require('discord.js');
@@ -79,6 +82,7 @@ const commands = {
   add: `${commandInit} add`,
   viewQueue: `${commandInit} upnext`,
   skip: `${commandInit} skip`,
+  meme: `${commandInit} meme`,
 };
 
 const memeSongs = {
@@ -115,11 +119,7 @@ let songQueue = [];
  * @Client Misc Commands
  */
 client.on('message', async (msg) => {
-  if (msg.content == commandInit) {
-    msg.reply('Hello there!');
-  }
-
-  if (msg.content == '!aft help') {
+  if (msg.content === '!aft help' || msg.content === commandInit) {
     let commandStr = 'Here are the supported commands: \n';
     for (commandKey in commands) {
       commandStr = commandStr.concat(commands[commandKey], '\n');
@@ -147,11 +147,22 @@ client.on('message', async (msg) => {
  */
 client.on('message', async (msg) => {
   const songArray = msg.content.split(' ');
-  const songText = songArray[songArray.length - 1];
+  const songText = songArray.slice(2, songArray.length).join(' ');
+  ytdl.getURLVideoID('jesus is the one');
+  console.log(songArray);
+  console.log(songText);
 
-  if (songArray[0] === commandInit && (songText in music || songText in memeSongs) && songArray.length === 2) {
+  if (songArray[0] === commandInit && songText in music && songArray[1] in commands) {
     msg.reply(`Playing Song: ${msg.content.split(' ')[1]}`);
     const songURL = music[songText];
+    msg.channel.send(`url: ${songURL}`);
+    songQueue = [[songText, songURL]];
+    playURL(msg);
+  }
+
+  if (songArray[0] === commandInit && songArray[1] in commands && songText in memeSongs) {
+    msg.reply(`Great choice, playing: ${songText}`);
+    const songURL = memeSongs[songText];
     msg.channel.send(`url: ${songURL}`);
     songQueue = [[songText, songURL]];
     playURL(msg);
@@ -162,7 +173,7 @@ client.on('message', async (msg) => {
     songQueue.shift();
     if (songQueue.length <= 0) {
       msg.reply('No more songs in playlist');
-      voiceChannelID = msg.member.voice.channelID;
+      const voiceChannelID = msg.member.voice.channelID;
       if (voiceChannelID != null) {
         botChannelID = voiceChannelID;
         const channel = client.channels.get(voiceChannelID);
