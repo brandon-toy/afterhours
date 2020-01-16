@@ -106,6 +106,9 @@ const music = {
   tavern2: 'https://www.youtube.com/watch?v=fIuO3RpMvHg',
   octopath: 'https://www.youtube.com/watch?v=1-_OwGncF6c',
   ff7: 'https://www.youtube.com/watch?v=9FmKdjRhoy4',
+  witcher2: 'https://www.youtube.com/watch?v=HO2tLTfooBE',
+  witcher3: 'https://www.youtube.com/watch?v=If8IyzjlcjA',
+  'russian bass': 'https://www.youtube.com/watch?v=vNXgknozyhw',
 };
 
 const fields = {
